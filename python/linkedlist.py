@@ -1,68 +1,102 @@
 class Node:
-    val = None
-    nextNode = None
+
+    def __init__(self, data, nextNode = None):
+        self.data = data
+        self.nextNode = nextNode
 
 class LinkedList:
 
     def __init__(self):
-        self.root = None
+        self.head = None
 
-    def empty(self):
-        return False if self.root else True
+    def insert(self, value, position = None):
+        newNode = Node(value)
+        if self.head:
+            cursor = self.head
+            if position and position > 0:
+                outOfRange = False
+                while position > 1:
+                    cursor = cursor.nextNode
+                    if cursor == None and position > 1:
+                        outOfRange = True
+                        break
+                    position -= 1
+                if not outOfRange:
+                    if cursor.nextNode == None:
+                        cursor.nextNode = Node(value)
+                    else:
+                        newNode.nextNode = cursor.nextNode
+                        cursor.nextNode = newNode
 
-    def insert(self, value, position = -1):
-        if self.empty() and position > 0:
-            print("The list have no position %d" % position)
-
-        elif self.empty():
-            newNode = Node()
-            newNode.val = value
-            self.root = newNode
-
-        else:
-            if position == 0:
-                cursor = self.root
-                newNode = Node()
-                newNode.val = value
-                newNode.nextNode = cursor.next
-                self.root = newNode
-
-            elif position == -1:
-                cursor = self.root
+            elif position == None:
                 while cursor.nextNode != None:
-                    cursor = cursor.next
+                    cursor = cursor.nextNode
+                cursor.nextNode = newNode
 
-                newNode = Node()
+            elif position == 0:
+                newNode.nextNode = self.head
+                self.head = newNode
+        else:
+            if not position:
+                self.head = newNode
 
 
+    def remove(self, value):
+        if self.head:
+            if self.head.data == value:
+                self.head = self.head.nextNode
+                return
 
-        '''else:
-            cursor = self.root
-            for index in range(0, position):
-                if cursor == None:'''
+            elif self.head.nextNode:
+                bcursor = self.head
+                fcursor = self.head.nextNode
+
+                while fcursor != None:
+                    if fcursor.data == value:
+                        bcursor.nextNode = fcursor.nextNode
+                        return
+                    bcursor = fcursor
+                    fcursor = fcursor.nextNode
+
+    def reverse(self):
+        if self.head and self.head.nextNode:
+            previous = self.head
+            present = self.head.nextNode
+            previous.nextNode = None
+
+            if present.nextNode:
+                forward = present.nextNode
+                while forward != None:
+                    present.nextNode = previous
+                    previous = present
+                    present = forward
+                    forward = forward.nextNode
+
+            present.nextNode = previous
+            self.head = present
 
     def find(self, value):
-        if self.empty():
+        if not self.head:
             return -1
         else:
             index = 0
-            cursor = self.root
+            cursor = self.head
             while cursor != None:
-                if cursor.val == value:
+                if cursor.data == value:
                     return index
                 else:
                     cursor = cursor.nextNode
             return -1
 
     def __str__(self):
-        if self.empty():
+        if not self.head:
             return 'The list is empty'
         else:
-            cursor = self.root
-            printString = '[' + str(cursor.val)
+            cursor = self.head
+            printString = '[' + str(cursor.data)
             while cursor.nextNode != None:
-                cursor = cursor.next
-                printString = printString + ', ' + str(cursor.val)
+                cursor = cursor.nextNode
+                printString = printString + ', ' + str(cursor.data)
             printString = printString + ']'
 
             return printString
