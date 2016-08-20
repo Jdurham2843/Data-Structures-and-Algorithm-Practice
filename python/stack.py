@@ -24,7 +24,7 @@ class Stack:
 
     def pop(self):
         if not self.empty():
-            if self.head.nextNode == None:
+            if not self.head.nextNode:
                 return_data = self.head.data
                 self.head = None
                 return return_data
@@ -42,7 +42,7 @@ class Stack:
                 return return_data
 
     def empty(self):
-        return self.head == None
+        return not self.head
 
     def top(self):
         if not self.empty():
