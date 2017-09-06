@@ -17,11 +17,8 @@ def selection_sort(arr):
         end_index -= 1
     return arr
 
-def generate_test_arrays(size):
-    return [[random.randint(0, 1000) for i in range(1, size)] for num in range(1, size)]
-
 if __name__ == '__main__':
-    test_arrs = generate_test_arrays(20)
+    test_arrs = [[random.randint(0, 1000) for i in range(1, 21)] for num in range(1, 21)] 
 
     for i, test_arr in enumerate(test_arrs):
         print("Orignal {}: ".format(i), test_arr)
